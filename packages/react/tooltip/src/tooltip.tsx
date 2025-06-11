@@ -262,7 +262,9 @@ const TRIGGER_NAME = 'TooltipTrigger';
 
 type TooltipTriggerElement = React.ComponentRef<typeof Primitive.button>;
 type PrimitiveButtonProps = React.ComponentPropsWithoutRef<typeof Primitive.button>;
-interface TooltipTriggerProps extends PrimitiveButtonProps {}
+interface TooltipTriggerProps extends PrimitiveButtonProps {
+  hideAriaDescribedBy?: boolean
+}
 
 const TooltipTrigger = React.forwardRef<TooltipTriggerElement, TooltipTriggerProps>(
   (props: ScopedProps<TooltipTriggerProps>, forwardedRef) => {
@@ -285,7 +287,7 @@ const TooltipTrigger = React.forwardRef<TooltipTriggerElement, TooltipTriggerPro
         <Primitive.button
           // We purposefully avoid adding `type=button` here because tooltip triggers are also
           // commonly anchors and the anchor `type` attribute signifies MIME type.
-          aria-describedby={context.open ? context.contentId : undefined}
+          aria-describedby={context.open && !props.hideAriaDescribedBy ? context.contentId : undefined}
           data-state={context.stateAttribute}
           {...triggerProps}
           ref={composedRefs}
